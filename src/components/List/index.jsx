@@ -10,7 +10,7 @@ import removeSvg from '../../assets/img/remove.svg'
 import './List.scss';
 
 
-const List = ({ items, isRemovable, onClick, onRemove }) =>  {
+const List = ({ items, isRemovable, onClick, onRemove, onClickItem, activeItem }) => {
 
     const removeList = (item) => {
         if (window.confirm('Вы действительно хотите удалить список?')) {
@@ -26,28 +26,33 @@ const List = ({ items, isRemovable, onClick, onRemove }) =>  {
         >
             {
                 items.map((item, i) => (
-                    <li key={i} className={classNames(item.className, {'active' : item.active})}>
+                    <li
+                        key={i}
+                        className={classNames(item.className, { active: activeItem && activeItem.id === item.id })}
+                        onClick={onClickItem ? () => { onClickItem(item) } : null}
+                    >
                         <i>
-                            {item.icon ? item.icon : <Badge color={item.color.name}/>}
+                            {item.icon ? item.icon : <Badge color={item.color.name} />}
                         </i>
                         <span>
                             {item.name}
+                            {item.tasks && ` (${item.tasks.length})`}
                         </span>
-                        
+
                         {isRemovable &&
-                            <img 
-                                className="list__remove-icon" 
-                                src={isRemovable ? removeSvg : ''} 
+                            <img
+                                className="list__remove-icon"
+                                src={isRemovable ? removeSvg : ''}
                                 alt="Remvoe icon"
                                 onClick={() => removeList(item)}
                             />
-                        } 
-                        
+                        }
+
                     </li>
                 ))
             }
-            
-        </ul>
+
+        </ul >
     )
 }
 
