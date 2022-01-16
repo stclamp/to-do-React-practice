@@ -9,7 +9,7 @@ import closeSvg from '../../assets/img/close.svg'
 import './AddList.scss';
 
 
-const AddList = ({colors, onAddList}) => {
+const AddList = ({ colors, onAddList }) => {
 
     const [visiblePopup, setVisiblePopup] = useState(false);
     const [selectedColor, selectColor] = useState(3);
@@ -43,28 +43,32 @@ const AddList = ({colors, onAddList}) => {
                 const listObj = { ...data, color: { name: color } };
                 onAddList(listObj);
                 onClose();
-            }).finally(() => {
+            })
+            .catch(() => {
+                alert('Произошла ошибка добавления списка')
+            })
+            .finally(() => {
                 setIsLoading(false);
             });
     }
-        
+
     return (
         <div className="add-list">
             <List
                 onClick={() => setVisiblePopup(true)}
                 items={[
                     {
-                    className: 'list__add-button',
-                    icon: (
-                        <svg width="12" height="12" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M8 1V15" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                            <path d="M1 8H15" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                        </svg>
-                    ),
-                    name: 'Добавить папку',
+                        className: 'list__add-button',
+                        icon: (
+                            <svg width="12" height="12" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M8 1V15" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                                <path d="M1 8H15" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                            </svg>
+                        ),
+                        name: 'Добавить папку',
                     }
                 ]}
-                
+
             />
             {visiblePopup &&
                 <div className="add-list__popup">
@@ -74,25 +78,25 @@ const AddList = ({colors, onAddList}) => {
                         onClick={onClose}
                         alt="closeImage"
                     />
-                    <input 
-                        className="field" 
-                        type="text" 
+                    <input
+                        className="field"
+                        type="text"
                         placeholder="Название папки"
                         onChange={(e) => setInputValue(e.target.value)}
                         value={inputValue}
-                        
-                     />
+
+                    />
                     <div className="add-list__popup-colors">
                         {colors.map(color => <Badge
                             onClick={() => selectColor(color.id)}
                             key={color.id}
                             color={color.name}
-                            className={selectedColor === color.id && 'active'} 
-                            
-                        />)} 
-                        
+                            className={selectedColor === color.id && 'active'}
+
+                        />)}
+
                     </div>
-                    <button 
+                    <button
                         className="button"
                         onClick={addList}
                     >

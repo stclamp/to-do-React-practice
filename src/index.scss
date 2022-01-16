@@ -53,6 +53,9 @@
   &:active {
     background: darken(#4DD599, 15%)
   }
+  &:disabled {
+    background-color: #d8d8d8;
+  }
   &--grey {
     background-color: #f4f6f8;
     color: #444;
